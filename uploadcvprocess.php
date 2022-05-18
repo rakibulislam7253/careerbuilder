@@ -1,0 +1,84 @@
+<?php
+session_start();
+
+if (
+    isset($_SESSION['useremail'])
+    &&  !empty($_SESSION['useremail'])
+) {
+    ///already logged in
+  // print_r($_POST);
+  // exit;
+    if (
+        isset($_POST['fullname'])
+        &&  isset($_POST['education'])
+        &&  isset($_POST['skills'])
+        &&  isset($_POST['language'])
+        &&  isset($_POST['certification'])
+        &&  isset($_POST['experience'])
+        &&  isset($_POST['interest'])
+        &&  isset($_POST['reference'])
+        &&  isset($_POST['links'])
+
+
+        &&  !empty($_POST['fullname'])
+        &&  !empty($_POST['education'])
+        &&  !empty($_POST['skills'])
+        &&  !empty($_POST['language'])
+        &&  !empty($_POST['certification'])
+        &&  !empty($_POST['experience'])
+        &&  !empty($_POST['interest'])
+        &&  !empty($_POST['reference'])
+        &&  !empty($_POST['links'])
+
+    ) 
+    {
+        $fullname = $_POST['fullname'];
+        $education = $_POST['education'];
+        $skills = $_POST['skills'];
+        $language = $_POST['language'];
+        $certification = $_POST['certification'];
+        $experience = $_POST['experience'];
+        $interest = $_POST['interest'];
+        $reference = $_POST['reference'];
+        $links = $_POST['links'];
+        $username = ($_SESSION['useremail']);
+        //        
+        //        echo $fullname;
+        //        echo $education;
+        //        echo $skills;
+        //        echo $language;
+        //        echo $certification;
+        //        echo $reference;
+        //        echo $links;
+        //        echo $interest;
+        //        echo $experience;
+        //        echo $username;
+
+
+        ///database section
+        try {
+            $conn = new PDO('mysql:host=localhost:3306;dbname=careerbuilder;', 'root', '');
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //database code execute, default : warning generate
+            $sqlquerystring = "INSERT INTO cv VALUES('$fullname','$education','$skills','$language','$certification','$experience','$interest','$reference','$links','$username')";
+
+            $conn->exec($sqlquerystring);
+
+            echo "success";
+            exit;
+        }catch (PDOException $ex) {
+            echo "error";
+            exit;
+        }
+    } 
+
+    else {
+ echo "Data missing";
+ exit;
+    }
+} else {
+echo "Invalid User";
+exit;
+}
+?>
